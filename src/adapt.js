@@ -88,7 +88,7 @@ export default function adapt(Yoga) {
     this.flexDirection = v
   }
   Yoga.Node.prototype.setFlexWrap = function(wrap) {
-    console.log('setFlexWrap', v)
+    console.log('setFlexWrap', wrap)
     this.flexWrap = wrap
   }
   Yoga.Node.prototype.setJustifyContent = function(v) {
