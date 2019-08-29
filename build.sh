@@ -23,8 +23,7 @@ emcc \
   -s MALLOC=emmalloc \
   -s MODULARIZE=1 \
   -s EXPORT_ES6=1 \
-  -s ASSERTIONS=1 \
-  -s SINGLE_FILE=1 \
+  -s ASSERTIONS=0 \
   -o ./build/yoga.js \
   yoga/*.cpp bindings/*.cc
 

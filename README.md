@@ -6,6 +6,20 @@ Custom bindings of Yoga Layout compiled to WebAssembly.
 
 `npm install @codewitchbella/yoga-wasm`
 
+## Usage with webpack
+
+Add following to `module.rules` section of your configuration
+
+```
+{
+  test: /yoga\.wasm$/,
+  loader: require.resolve('file-loader'),
+  type: 'javascript/auto',
+},
+```
+
+This makes webpack provide us with path to `yoga.wasm` file.
+
 ## Goals
 
 - WASM bindings on yoga-layout compatible with official build

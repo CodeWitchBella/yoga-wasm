@@ -1,4 +1,5 @@
-import Yoga from "../build/yoga";
+import Yoga from "../build/yoga"
+import YogaWasm from './yoga.wasm'
 import adapt from './adapt'
 
 function patch(prototype, name, fn) {
@@ -15,7 +16,13 @@ function patch(prototype, name, fn) {
 // causes an infinite loop, so we manually resolve/wrap the call in
 // a native promise
 export default new Promise(function(resolve) {
-  Yoga().then(function(Module) {
+  Yoga({
+    locateFile(path) {
+      if(path.endsWith('.wasm')) {
+        return YogaWasm
+      }
+    }
+  }).then(function(Module) {
     patch(Module.YGNode.prototype, "free", function() {
       this.delete();
     });

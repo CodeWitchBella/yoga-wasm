@@ -1,10 +1,18 @@
 import commonjs from "rollup-plugin-commonjs";
 import builtins from "rollup-plugin-node-builtins";
+import copy from 'rollup-plugin-copy'
 
 const base = {
   input: "src/index.js",
   context: "window",
-  plugins: [commonjs(), builtins()],
+  external(id, parent, resolved) {
+    return id.endsWith('.wasm')
+  },
+  plugins: [commonjs(), builtins(), copy({
+    targets: [
+      { src: 'build/yoga.wasm', dest: 'dist/' }
+    ]
+  })],
 }
 
 export default [{
