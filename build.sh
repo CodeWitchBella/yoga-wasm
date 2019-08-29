@@ -1,35 +1,35 @@
 #!/usr/bin/env bash
 set -e
 
-OUTPUT_FILENAME="yoga.js"
+export OPTIMIZE="-Os"
+export LDFLAGS="${OPTIMIZE}"
+export CFLAGS="${OPTIMIZE}"
+export CXXFLAGS="${OPTIMIZE}"
 
-# clean up build folder
-rm -rf build && mkdir -p build
+echo "============================================="
+echo "Compiling wasm bindings"
+echo "============================================="
 
-build() {
-  if [[ -n "$EMSCRIPTEN_SDK_ENV" ]]; then
-    source $EMSCRIPTEN_SDK_ENV
-    emcc "$@"
-  else
-    docker run --rm -v $(pwd):$(pwd) -w $(pwd) -u emscripten -t trzeci/emscripten:latest emcc "$@"
-  fi
-}
-
-# compile to wasm
-build \
-  yoga/*.cpp bindings/*.cc \
-  --bind -Os --memory-init-file 0 --closure 1 --llvm-lto 1 \
+# Compile C/C++ code
+emcc \
+  ${OPTIMIZE} \
+  --bind --memory-init-file 0 --closure 1 -s WASM_OBJECT_FILES=0 --llvm-lto 1 \
   -fno-exceptions \
-  -s BINARYEN=1 \
-  -s "BINARYEN_METHOD='native-wasm'" \
-  -s EXPORTED_RUNTIME_METHODS=[] \
+  -s STRICT=1 \
   -s DISABLE_EXCEPTION_CATCHING=1 \
-  -s AGGRESSIVE_VARIABLE_ELIMINATION=1 \
   -s NO_EXIT_RUNTIME=1 \
-  -s ASSERTIONS=0 \
-  -s SINGLE_FILE=1 \
-  -s NO_FILESYSTEM=1 \
+  -s FILESYSTEM=0 \
   -s ALLOW_MEMORY_GROWTH=1 \
+  -s MALLOC=emmalloc \
   -s MODULARIZE=1 \
-  -s "DEFAULT_LIBRARY_FUNCS_TO_INCLUDE=['memcpy','memset','malloc','free','strlen']" \
-  -o build/$OUTPUT_FILENAME
+  -s EXPORT_ES6=1 \
+  -s ASSERTIONS=1 \
+  -s SINGLE_FILE=1 \
+  -o ./build/yoga.js \
+  yoga/*.cpp bindings/*.cc
+
+echo "============================================="
+echo "Compiling wasm bindings done"
+echo "============================================="
+
+ls -lh build/yoga.js build/yoga.wasm
