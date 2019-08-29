@@ -35,7 +35,9 @@
     "rollup-plugin-uglify": "^2.0.1",
     "uglify-es": "^3.3.4"
   },
+  "repository": "github:CodeWitchBella/yoga-wasm",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "alpha"
   }
 }

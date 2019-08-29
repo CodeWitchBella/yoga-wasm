@@ -1,6 +1,10 @@
-# Yoga DOM
+# Yoga WASM
 
 Custom bindings of Yoga Layout compiled to WebAssembly.
+
+## Install
+
+`npm install @codewitchbella/yoga-wasm@alpha`
 
 ## Goals
 
