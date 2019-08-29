@@ -1,6 +1,5 @@
-import Yoga from "../build/yoga"
-import YogaWasm from './yoga.wasm'
 import adapt from './adapt'
+import Yoga from "../build/yoga"
 
 function patch(prototype, name, fn) {
   var original = prototype[name];
@@ -11,18 +10,14 @@ function patch(prototype, name, fn) {
   };
 }
 
-// Emscripten exports a "promise-like" function which, if
-// you try to resolve via a mechanism that uses native promises,
-// causes an infinite loop, so we manually resolve/wrap the call in
-// a native promise
-export default new Promise(function(resolve) {
+export default (YogaWasm) => new Promise(resolve => {
   Yoga({
     locateFile(path) {
       if(path.endsWith('.wasm')) {
         return YogaWasm
       }
     }
-  }).then(function(Module) {
+  }).then((Module) => {
     patch(Module.YGNode.prototype, "free", function() {
       this.delete();
     });
@@ -73,6 +68,6 @@ export default new Promise(function(resolve) {
         undefinedValue: Module.YGUndefined,
         // autoValue: Module.YGValueAuto,
       },
-    }));
-  });
-});
+    }))
+  })
+})
