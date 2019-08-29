@@ -11,7 +11,7 @@ build() {
     source $EMSCRIPTEN_SDK_ENV
     emcc "$@"
   else
-    docker run --rm -v $(pwd):$(pwd) -w $(pwd) -u emscripten -t trzeci/emscripten:sdk-incoming-64bit emcc "$@"
+    docker run --rm -v $(pwd):$(pwd) -w $(pwd) -u emscripten -t trzeci/emscripten:latest emcc "$@"
   fi
 }
 

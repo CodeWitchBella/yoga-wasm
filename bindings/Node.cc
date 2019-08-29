@@ -450,6 +450,9 @@ EMSCRIPTEN_BINDINGS(YGNode)
     .constructor<>(&Node::createDefault, allow_raw_pointers())
 
     .class_function("createWithConfig", &Node::createWithConfig, allow_raw_pointers())
+    .class_function("destroy", &Node::destroy, allow_raw_pointers())
+
+    .function("copyStyle", &Node::copyStyle, allow_raw_pointers())
 
     .function("insertChild", &Node::insertChild, allow_raw_pointers())
     .function("removeChild", &Node::removeChild, allow_raw_pointers())
@@ -504,7 +507,7 @@ EMSCRIPTEN_BINDINGS(YGNode)
     EMBIND_NODE_PROP_BINDING(aspectRatio, AspectRatio)
 
     EMBIND_NODE_READONLY_PROP_BINDING(computedLeft, ComputedLeft)
-    EMBIND_NODE_READONLY_PROP_BINDING(computedTopt, ComputedTop)
+    EMBIND_NODE_READONLY_PROP_BINDING(computedTop, ComputedTop)
     EMBIND_NODE_READONLY_PROP_BINDING(computedWidth, ComputedWidth)
     EMBIND_NODE_READONLY_PROP_BINDING(computedHeight, ComputedHeight)
 

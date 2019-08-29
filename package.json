@@ -1,9 +1,9 @@
 {
-  "name": "yoga-dom",
+  "name": "@codewitchbella/yoga-wasm",
   "description": "WASM bindings for Yoga Layout",
   "version": "0.0.16",
   "license": "MIT",
-  "author": "Vincent Riemer",
+  "contributors": ["Isabella Skořepová", "Vincent Riemer"],
   "main": "dist/Yoga.cjs.js",
   "module": "dist/Yoga.es.js",
   "files": [
