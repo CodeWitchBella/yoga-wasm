@@ -27,16 +27,17 @@
     "prepare": "npm run build"
   },
   "devDependencies": {
-    "rimraf": "^2.6.2",
-    "rollup": "^0.53.2",
-    "rollup-plugin-commonjs": "^8.2.6",
-    "rollup-plugin-filesize": "^1.5.0",
-    "rollup-plugin-node-builtins": "^2.1.2",
-    "rollup-plugin-uglify": "^2.0.1",
-    "uglify-es": "^3.3.4"
+    "rimraf": "^3.0.0",
+    "rollup": "^1.20.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-filesize": "^6.2.0",
+    "rollup-plugin-node-builtins": "^2.1.2"
   },
   "repository": "github:CodeWitchBella/yoga-wasm",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "rollup-plugin-terser": "^5.1.1"
   }
 }
