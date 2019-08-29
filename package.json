@@ -1,7 +1,7 @@
 {
   "name": "@codewitchbella/yoga-wasm",
   "description": "WASM bindings for Yoga Layout",
-  "version": "0.0.16",
+  "version": "0.1.0-alpha.1",
   "license": "MIT",
   "contributors": [
     "Isabella Skořepová",
@@ -23,7 +23,8 @@
     "prebuild:bundle": "npm run clean:bundle",
     "build:bundle": "npm run build:umd && npm run build:commonjs && npm run build:es && npm run build:min",
     "build": "npm run build:wasm && npm run build:bundle",
-    "bench": "node tests/run-bench $(find tests/Benchmarks -name '*.js')"
+    "bench": "node tests/run-bench $(find tests/Benchmarks -name '*.js')",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "rimraf": "^2.6.2",
@@ -33,5 +34,8 @@
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-uglify": "^2.0.1",
     "uglify-es": "^3.3.4"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
