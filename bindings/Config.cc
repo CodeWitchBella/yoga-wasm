@@ -45,6 +45,7 @@ EMSCRIPTEN_BINDINGS(YGConfig) {
     .constructor<>(&Config::create, allow_raw_pointers())
     // .function("setExperimentalFeatureEnabled", &Config::setExperimentalFeatureEnabled)
     .function("setPointScaleFactor", &Config::setPointScaleFactor)
+    .class_function("destroy", &Config::destroy, allow_raw_pointers())
     // .function("isExperimentalFeatureEnabled", &Config::isExperimentalFeatureEnabled)
     ;
 }

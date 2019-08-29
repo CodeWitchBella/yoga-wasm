@@ -1,4 +1,7 @@
 export default function adapt(Yoga) {
+  Yoga.Node.create = () => {
+    return Yoga.Node.createWithConfig(new Yoga.Config())
+  }
   Yoga.Node.createDefault = () =>
     Yoga.Node.createWithConfig(new Yoga.Config())
 
@@ -319,5 +322,11 @@ export default function adapt(Yoga) {
     }
     return originalSetMeasureFunc.apply(this, [func])
   }
+
+  Yoga.Config.create = () => new Yoga.Config()
+  Yoga.Config.prototype.free = function() {
+    Yoga.Config.destroy(this)
+  }
+
   return Yoga
 }

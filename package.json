@@ -20,9 +20,11 @@
     "build:bundle": "rollup --silent -c rollup.config.js",
     "build": "npm run build:wasm && npm run build:bundle",
     "bench": "node tests/run-bench $(find tests/Benchmarks -name '*.js')",
+    "test": "jest",
     "prepare": "npm run build"
   },
   "devDependencies": {
+    "jest": "^24.9.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.20.3",
     "rollup-plugin-commonjs": "^10.1.0",
@@ -32,6 +34,10 @@
   "repository": "github:CodeWitchBella/yoga-wasm",
   "publishConfig": {
     "access": "public"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testRegex": "Test\\.js$"
   },
   "dependencies": {}
 }
