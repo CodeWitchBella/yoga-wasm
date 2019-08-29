@@ -19,6 +19,10 @@ export default function adapt(Yoga) {
     if (v.value !== v.value) console.warn(new Error('NaN'))
     return v.value
   }
+  function percent(v) {
+    return { value: v, unit: Yoga.Constants.unit.percent }
+  }
+
   Yoga.EDGE_TOP = 'EDGE_TOP'
   Yoga.EDGE_BOTTOM = 'EDGE_BOTTOM'
   Yoga.EDGE_LEFT = 'EDGE_LEFT'
