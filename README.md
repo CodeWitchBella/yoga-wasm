@@ -4,7 +4,7 @@ Custom bindings of Yoga Layout compiled to WebAssembly.
 
 ## Install
 
-`npm install @codewitchbella/yoga-wasm@alpha`
+`npm install @codewitchbella/yoga-wasm`
 
 ## Goals
 
