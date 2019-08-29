@@ -1,4 +1,5 @@
 import Yoga from "../build/yoga";
+import adapt from './adapt'
 
 function patch(prototype, name, fn) {
   var original = prototype[name];
@@ -45,7 +46,7 @@ export default new Promise(function(resolve) {
       return original.call(this, width, height, direction);
     });
 
-    resolve({
+    resolve(adapt({
       Node: Module.YGNode,
       Config: Module.YGConfig,
       Constants: {
@@ -65,6 +66,6 @@ export default new Promise(function(resolve) {
         undefinedValue: Module.YGUndefined,
         // autoValue: Module.YGValueAuto,
       },
-    });
+    }));
   });
 });
