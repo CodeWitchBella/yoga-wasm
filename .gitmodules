@@ -1,4 +1,4 @@
 [submodule "yoga"]
 	path = yoga
-	url = https://github.com/vincentriemer/yoga-dom.git
+	url = https://github.com/CodeWitchBella/yoga-wasm.git
 	branch = fbyoga
