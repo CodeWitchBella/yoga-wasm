@@ -40,21 +40,6 @@ export default function adapt(Yoga) {
   Yoga.Node.prototype.reset = function(...args) {
     console.log('reset', args)
   }
-  Yoga.Node.prototype.setPositionType = function(val) {
-    this.position = val
-  }
-  Yoga.Node.prototype.setPosition = function(dim, v) {
-    if (dim === Yoga.EDGE_TOP) this.top = pt(v)
-    else if (dim === Yoga.EDGE_LEFT) this.left = pt(v)
-    else if (dim === Yoga.EDGE_RIGHT) this.right = pt(v)
-    else if (dim === Yoga.EDGE_BOTTOM) this.bottom = pt(v)
-    else if (dim === Yoga.EDGE_START) this.start = pt(v)
-    else if (dim === Yoga.EDGE_END) this.end = pt(v)
-    else console.log('setPosition: unknown dim ' + dim)
-  }
-  Yoga.Node.prototype.setPositionPercent = function(...args) {
-    console.log('setPositionPercent', args)
-  }
   Yoga.Node.prototype.setAlignContent = function(v) {
     this.alignContent = v
   }

@@ -86,6 +86,10 @@ public: // Style setters
   void setMarginPercent(YGEdge edge, double value);
   void setMarginAuto(YGEdge edge);
 
+  void setPositionType(YGPositionType type);
+  void setPosition(YGEdge edge, double value);
+  void setPositionPercent(YGEdge edge, double value);
+
 public: // Style properties
   NODE_STYLE_PROPERTY(YGDirection, Direction, direction);
   NODE_STYLE_PROPERTY(YGFlexDirection, FlexDirection, flexDirection);
@@ -93,7 +97,6 @@ public: // Style properties
   NODE_STYLE_PROPERTY(YGAlign, AlignContent, alignContent);
   NODE_STYLE_PROPERTY(YGAlign, AlignItems, alignItems);
   NODE_STYLE_PROPERTY(YGAlign, AlignSelf, alignSelf);
-  NODE_STYLE_PROPERTY(YGPositionType, PositionType, positionType);
   NODE_STYLE_PROPERTY(YGWrap, FlexWrap, flexWrap);
   NODE_STYLE_PROPERTY(YGOverflow, Overflow, overflow);
   NODE_STYLE_PROPERTY(YGDisplay, Display, display);
@@ -103,7 +106,6 @@ public: // Style properties
   NODE_STYLE_PROPERTY(float, FlexShrink, flexShrink);
   NODE_STYLE_PROPERTY(YGValue, FlexBasis, flexBasis);
 
-  NODE_STYLE_EDGE_PROPERTY(YGValue, Position, position);
   NODE_STYLE_EDGE_PROPERTY(YGValue, Padding, padding);
   NODE_STYLE_EDGE_PROPERTY(float, Border, border);
 

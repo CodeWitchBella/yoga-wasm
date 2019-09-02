@@ -81,6 +81,16 @@ void Node::setMarginAuto(YGEdge edge) {
   YGNodeStyleSetMarginAuto(m_node, edge);
 }
 
+void Node::setPositionType(YGPositionType type) {
+  YGNodeStyleSetPositionType(m_node, type);
+}
+void Node::setPosition(YGEdge edge, double value) {
+  YGNodeStyleSetPosition(m_node, edge, value);
+}
+void Node::setPositionPercent(YGEdge edge, double value) {
+  YGNodeStyleSetPositionPercent(m_node, edge, value);
+}
+
 void Node::insertChild(Node *child, unsigned index)
 {
   YGNodeInsertChild(m_node, child->m_node, index);
@@ -376,13 +386,11 @@ NODE_STYLE_PROPERTY_IMPL(YGJustify, JustifyContent, justifyContent);
 NODE_STYLE_PROPERTY_IMPL(YGAlign, AlignContent, alignContent);
 NODE_STYLE_PROPERTY_IMPL(YGAlign, AlignItems, alignItems);
 NODE_STYLE_PROPERTY_IMPL(YGAlign, AlignSelf, alignSelf);
-NODE_STYLE_PROPERTY_IMPL(YGPositionType, PositionType, positionType);
 NODE_STYLE_PROPERTY_IMPL(YGWrap, FlexWrap, flexWrap);
 NODE_STYLE_PROPERTY_IMPL(YGOverflow, Overflow, overflow);
 NODE_STYLE_PROPERTY_IMPL(YGDisplay, Display, display);
 NODE_STYLE_PROPERTY_IMPL(float, Flex, flex);
 
-NODE_STYLE_EDGE_PROPERTY_UNIT_IMPL(Position, position);
 NODE_STYLE_EDGE_PROPERTY_UNIT_IMPL(Padding, padding);
 NODE_STYLE_EDGE_PROPERTY_IMPL(float, Border, border);
 
@@ -473,6 +481,10 @@ EMSCRIPTEN_BINDINGS(YGNode)
     .function("setMarginPercent", &Node::setMarginPercent, allow_raw_pointers())
     .function("setMarginAuto", &Node::setMarginAuto, allow_raw_pointers())
 
+    .function("setPosition", &Node::setPosition, allow_raw_pointers())
+    .function("setPositionType", &Node::setPositionType, allow_raw_pointers())
+    .function("setPositionPercent", &Node::setPositionPercent, allow_raw_pointers())
+
     .function("insertChild", &Node::insertChild, allow_raw_pointers())
     .function("removeChild", &Node::removeChild, allow_raw_pointers())
     .function("getChildCount", &Node::getChildCount)
@@ -496,7 +508,6 @@ EMSCRIPTEN_BINDINGS(YGNode)
     EMBIND_NODE_PROP_BINDING(alignContent, AlignContent)
     EMBIND_NODE_PROP_BINDING(alignItems, AlignItems)
     EMBIND_NODE_PROP_BINDING(alignSelf, AlignSelf)
-    EMBIND_NODE_PROP_BINDING(position, PositionType)
     EMBIND_NODE_PROP_BINDING(flexWrap, FlexWrap)
     EMBIND_NODE_PROP_BINDING(overflow, Overflow)
     EMBIND_NODE_PROP_BINDING(display, Display)
@@ -504,13 +515,6 @@ EMSCRIPTEN_BINDINGS(YGNode)
     EMBIND_NODE_PROP_BINDING(flexGrow, FlexGrow)
     EMBIND_NODE_PROP_BINDING(flexShrink, FlexShrink)
     EMBIND_NODE_PROP_BINDING(flexBasis, FlexBasis)
-
-    EMBIND_NODE_PROP_BINDING(left, PositionLeft)
-    EMBIND_NODE_PROP_BINDING(right, PositionRight)
-    EMBIND_NODE_PROP_BINDING(top, PositionTop)
-    EMBIND_NODE_PROP_BINDING(bottom, PositionBottom)
-    EMBIND_NODE_PROP_BINDING(start, PositionStart)
-    EMBIND_NODE_PROP_BINDING(end, PositionEnd)
 
     EMBIND_NODE_EDGE_PROP_BINDING(padding, Padding)
     EMBIND_NODE_EDGE_PROP_BINDING(border, Border)
