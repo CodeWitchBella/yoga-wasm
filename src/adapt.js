@@ -287,9 +287,6 @@ export default function adapt(Yoga) {
   Yoga.Node.prototype.isReferenceBaseline = function(...args) {
     console.log('isReferenceBaseline', args)
   }
-  Yoga.Node.prototype.setIsReferenceBaseline = function(...args) {
-    console.log('setIsReferenceBaseline', args)
-  }
   Yoga.Node.prototype.setDirtiedFunc = function(...args) {
     console.log('setDirtiedFunc', args)
   }

@@ -67,6 +67,10 @@ void Node::copyStyle(Node const &other)
   YGNodeCopyStyle(m_node, other.m_node);
 }
 
+void Node::setIsReferenceBaseline(bool isReferenceBaseline) {
+  YGNodeSetIsReferenceBaseline(m_node, isReferenceBaseline);
+}
+
 void Node::insertChild(Node *child, unsigned index)
 {
   YGNodeInsertChild(m_node, child->m_node, index);
@@ -455,6 +459,7 @@ EMSCRIPTEN_BINDINGS(YGNode)
     .class_function("destroy", &Node::destroy, allow_raw_pointers())
 
     .function("copyStyle", &Node::copyStyle, allow_raw_pointers())
+    .function("setIsReferenceBaseline", &Node::setIsReferenceBaseline, allow_raw_pointers())
 
     .function("insertChild", &Node::insertChild, allow_raw_pointers())
     .function("removeChild", &Node::removeChild, allow_raw_pointers())

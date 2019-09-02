@@ -81,6 +81,7 @@ public:
 
 public: // Style setters
   void copyStyle(Node const &other);
+  void setIsReferenceBaseline(bool isReferenceBaseline);
 
 public: // Style properties
   NODE_STYLE_PROPERTY(YGDirection, Direction, direction);
