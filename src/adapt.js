@@ -8,6 +8,8 @@ export default function adapt(Yoga) {
   function pt(v) {
     if (v === undefined)
       return { value: 0, unit: Yoga.Constants.unit.undefined }
+    if (v === 'auto')
+      return { value: 0, unit: Yoga.Constants.unit.auto }
     if(typeof v === 'string') {
       const clear = v.replace(/ /g, '')
       if (clear.endsWith('%')) {
@@ -109,7 +111,6 @@ export default function adapt(Yoga) {
     this.flexWrap = wrap
   }
   Yoga.Node.prototype.setJustifyContent = function(v) {
-    console.log('setJustifyContent')
     this.justifyContent = v
   }
   Yoga.Node.prototype.setMargin = function(dim, v) {
@@ -117,6 +118,8 @@ export default function adapt(Yoga) {
     else if (dim === Yoga.EDGE_LEFT) this.marginLeft = pt(v)
     else if (dim === Yoga.EDGE_RIGHT) this.marginRight = pt(v)
     else if (dim === Yoga.EDGE_BOTTOM) this.marginBottom = pt(v)
+    else if (dim === Yoga.EDGE_START) this.marginStart = pt(v)
+    else if (dim === Yoga.EDGE_END) this.marginEnd = pt(v)
     else console.log('setMargin: unknown dim ' + dim)
   }
   Yoga.Node.prototype.setMarginPercent = function(...args) {
@@ -135,16 +138,16 @@ export default function adapt(Yoga) {
     console.log('setFlex', args)
   }
   Yoga.Node.prototype.setFlexBasis = function(v) {
-    this.flexBasis = auto(v)
+    this.flexBasis = pt(v)
   }
   Yoga.Node.prototype.setFlexBasisPercent = function(...args) {
-    console.log('setFlexBasisPercent', args)
+    this.flexBasis = percent(v)
   }
   Yoga.Node.prototype.setFlexGrow = function(v) {
     this.flexGrow = v
   }
-  Yoga.Node.prototype.setFlexShrink = function(...args) {
-    console.log('setFlexShrink', args)
+  Yoga.Node.prototype.setFlexShrink = function(v) {
+    this.flexShrink = v
   }
   Yoga.Node.prototype.setWidth = function(width) {
     if (width === 'auto') this.width = auto(0)
@@ -179,17 +182,17 @@ export default function adapt(Yoga) {
   Yoga.Node.prototype.setMinHeightPercent = function(...args) {
     console.log('setMinHeightPercent', args)
   }
-  Yoga.Node.prototype.setMaxWidth = function(...args) {
-    console.log('setMaxWidth', args)
+  Yoga.Node.prototype.setMaxWidth = function(v) {
+    this.maxWidth = pt(v)
   }
   Yoga.Node.prototype.setMaxWidthPercent = function(...args) {
-    console.log('setMaxWidthPercent', args)
+    this.maxWidth = auto(v)
   }
-  Yoga.Node.prototype.setMaxHeight = function(...args) {
-    console.log('setMaxHeight', args)
+  Yoga.Node.prototype.setMaxHeight = function(v) {
+    this.maxHeight = pt(v)
   }
   Yoga.Node.prototype.setMaxHeightPercent = function(...args) {
-    console.log('setMaxHeightPercent', args)
+    this.maxHeight = auto(v)
   }
   Yoga.Node.prototype.setAspectRatio = function(...args) {
     console.log('setAspectRatio', args)
