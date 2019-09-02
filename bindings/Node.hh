@@ -53,6 +53,20 @@ struct MeasureCallbackWrapper : public emscripten::wrapper<MeasureCallback>
   }
 };
 
+struct DirtiedCallback
+{
+  virtual void dirtied() = 0;
+};
+
+struct DirtiedCallbackWrapper : public emscripten::wrapper<DirtiedCallback>
+{
+  EMSCRIPTEN_WRAPPER(DirtiedCallbackWrapper);
+  void dirtied()
+  {
+    return call<void>("dirtied");
+  }
+};
+
 class Node
 {
 
@@ -135,8 +149,12 @@ public: // Measure func mutators
   void setMeasureFunc(MeasureCallback *measureCb);
   void unsetMeasureFunc(void);
 
+  void setDirtiedFunc(DirtiedCallback *dirtiedCb);
+  void unsetDirtiedFunc(void);
+
 public: // Measure func inspectors
   YGSize callMeasureFunc(float width, YGMeasureMode widthMode, float height, YGMeasureMode heightMode) const;
+  void callDirtiedFunc() const;
 
 public: // Dirtiness accessors
   void markDirty(void);
@@ -163,4 +181,5 @@ public: // HasNewLayout manipulators
 private:
   YGNodeRef m_node;
   std::unique_ptr<MeasureCallback> m_measureCb;
+  std::unique_ptr<DirtiedCallback> m_dirtiedCb;
 };

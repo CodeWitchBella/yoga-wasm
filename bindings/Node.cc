@@ -25,6 +25,13 @@ static YGSize globalMeasureFunc(YGNodeRef nodeRef, float width, YGMeasureMode wi
   return size;
 }
 
+static void globalDirtiedFunc(YGNodeRef nodeRef)
+{
+  Node const &node = *reinterpret_cast<Node const *>(YGNodeGetContext(nodeRef));
+
+  node.callDirtiedFunc();
+}
+
 /* static */ Node *Node::createDefault(void)
 {
   return new Node(nullptr);
@@ -144,6 +151,23 @@ void Node::unsetMeasureFunc(void)
 YGSize Node::callMeasureFunc(float width, YGMeasureMode widthMode, float height, YGMeasureMode heightMode) const
 {
   return m_measureCb->measure(width, widthMode, height, heightMode);
+}
+
+void Node::setDirtiedFunc(DirtiedCallback *dirtiedCb)
+{
+  m_dirtiedCb.reset(dirtiedCb);
+  YGNodeSetDirtiedFunc(m_node, &globalDirtiedFunc);
+}
+
+void Node::unsetDirtiedFunc(void)
+{
+  m_dirtiedCb.reset(nullptr);
+  YGNodeSetDirtiedFunc(m_node, nullptr);
+}
+
+void Node::callDirtiedFunc() const
+{
+  return m_dirtiedCb->dirtied();
 }
 
 void Node::markDirty(void)
@@ -452,6 +476,11 @@ EMSCRIPTEN_BINDINGS(YGNode)
     .allow_subclass<MeasureCallbackWrapper>("MeasureCallbackWrapper")
     ;
 
+  class_<DirtiedCallback>("DirtiedCallback")
+    .function("dirtied", &DirtiedCallback::dirtied, pure_virtual())
+    .allow_subclass<DirtiedCallbackWrapper>("DirtiedCallbackWrapper")
+    ;
+
   value_object<YGSize>("YGSize")
     .field("width", &YGSize::width)
     .field("height", &YGSize::height)
@@ -478,8 +507,10 @@ EMSCRIPTEN_BINDINGS(YGNode)
     .class_function("createWithConfig", &Node::createWithConfig, allow_raw_pointers())
     .class_function("destroy", &Node::destroy, allow_raw_pointers())
 
+    .function("reset", &Node::reset, allow_raw_pointers())
     .function("copyStyle", &Node::copyStyle, allow_raw_pointers())
     .function("setIsReferenceBaseline", &Node::setIsReferenceBaseline, allow_raw_pointers())
+
     .function("setMargin", &Node::setMargin, allow_raw_pointers())
     .function("setMarginPercent", &Node::setMarginPercent, allow_raw_pointers())
     .function("setMarginAuto", &Node::setMarginAuto, allow_raw_pointers())
@@ -497,6 +528,9 @@ EMSCRIPTEN_BINDINGS(YGNode)
 
     .function("setMeasureFunc", &Node::setMeasureFunc, allow_raw_pointers())
     .function("unsetMeasureFunc", &Node::unsetMeasureFunc, allow_raw_pointers())
+
+    .function("setDirtiedFunc", &Node::setDirtiedFunc, allow_raw_pointers())
+    .function("unsetDirtiedFunc", &Node::unsetDirtiedFunc, allow_raw_pointers())
 
     .function("markDirty", &Node::markDirty)
     .function("isDirty", &Node::isDirty)

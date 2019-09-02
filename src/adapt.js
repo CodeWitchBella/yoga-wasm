@@ -37,9 +37,6 @@ export default function adapt(Yoga) {
     return { value: v, unit: Yoga.UNIT_PERCENT }
   }
 
-  Yoga.Node.prototype.reset = function(...args) {
-    console.log('reset', args)
-  }
   Yoga.Node.prototype.setAlignContent = function(v) {
     this.alignContent = v
   }
@@ -219,12 +216,6 @@ export default function adapt(Yoga) {
   }
   Yoga.Node.prototype.isReferenceBaseline = function(...args) {
     console.log('isReferenceBaseline', args)
-  }
-  Yoga.Node.prototype.setDirtiedFunc = function(...args) {
-    console.log('setDirtiedFunc', args)
-  }
-  Yoga.Node.prototype.unsetDirtiedFunc = function(...args) {
-    console.log('unsetDirtiedFunc', args)
   }
   Yoga.Node.prototype.getComputedLeft = function() {
     return this.computedLeft

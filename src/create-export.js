@@ -94,6 +94,17 @@ export default (YogaWasm) => new Promise(resolve => {
       original.call(this, wrapMeasureFunction(measureFunc));
     });
 
+    function wrapDirtiedFunction(fn) {
+      return Module.DirtiedCallback.implement({ dirtied: fn });
+    }
+
+    patch(Module.YGNode.prototype, "setDirtiedFunc", function(
+      original,
+      fn
+    ) {
+      original.call(this, wrapDirtiedFunction(fn));
+    });
+
     patch(Module.YGNode.prototype, "calculateLayout", function(
       original,
       width = Module.YGUndefined,
