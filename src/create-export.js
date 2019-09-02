@@ -31,9 +31,9 @@ export default (YogaWasm) => new Promise(resolve => {
       'setPadding',
     ]) {
       let methods = {
-        [Module.UNIT_POINT]: Module.YGNode.prototype[fnName],
-        [Module.UNIT_PERCENT]: Module.YGNode.prototype[`${fnName}Percent`],
-        [Module.UNIT_AUTO]: Module.YGNode.prototype[`${fnName}Auto`],
+        UNIT_POINT: Module.YGNode.prototype[fnName],
+        UNIT_PERCENT: Module.YGNode.prototype[`${fnName}Percent`],
+        UNIT_AUTO: Module.YGNode.prototype[`${fnName}Auto`],
       };
   
       patch(Module.YGNode.prototype, fnName, function(original, ...args) {
@@ -42,24 +42,24 @@ export default (YogaWasm) => new Promise(resolve => {
   
         let value = args.pop();
         let unit, asNumber;
-  
+
         if (value === 'auto') {
-          unit = Module.UNIT_AUTO;
+          unit = 'UNIT_AUTO';
           asNumber = undefined;
-        } else if (value instanceof Value) {
-          unit = value.unit;
-          asNumber = value.valueOf();
+        //} else if (value instanceof Value) {
+        //  unit = value.unit;
+        //  asNumber = value.valueOf();
         } else {
           unit =
             typeof value === 'string' && value.endsWith('%')
-              ? Module.UNIT_PERCENT
-              : Module.UNIT_POINT;
+              ? 'UNIT_PERCENT'
+              : 'UNIT_POINT';
           asNumber = parseFloat(value);
           if (!Number.isNaN(value) && Number.isNaN(asNumber)) {
             throw new Error(`Invalid value ${value} for ${fnName}`);
           }
         }
-  
+
         if (!methods[unit])
           throw new Error(
             `Failed to execute "${fnName}": Unsupported unit '${value}'`,
