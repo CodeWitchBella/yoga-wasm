@@ -25,6 +25,7 @@ emcc \
   -s EXPORT_ES6=1 \
   -s ASSERTIONS=0 \
   -o ./build/yoga.js \
+  -I . \
   yoga/*.cpp bindings/*.cc
 
 echo "============================================="
