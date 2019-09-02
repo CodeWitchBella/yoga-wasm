@@ -8,6 +8,15 @@ export default function adapt(Yoga) {
   function pt(v) {
     if (v === undefined)
       return { value: 0, unit: Yoga.Constants.unit.undefined }
+    if(typeof v === 'string') {
+      const clear = v.replace(/ /g, '')
+      if (clear.endsWith('%')) {
+        return {
+          value: Number.parseFloat(clear.substring(0, clear.length-1)),
+          unit: Yoga.Constants.unit.percent
+        }
+      }
+    }
     return { value: v, unit: Yoga.Constants.unit.point }
   }
   function auto(v) {
@@ -30,6 +39,8 @@ export default function adapt(Yoga) {
   Yoga.EDGE_BOTTOM = 'EDGE_BOTTOM'
   Yoga.EDGE_LEFT = 'EDGE_LEFT'
   Yoga.EDGE_RIGHT = 'EDGE_RIGHT'
+  Yoga.EDGE_START = 'EDGE_START'
+  Yoga.EDGE_END = 'EDGE_END'
 
   Yoga.FLEX_DIRECTION_COLUMN = Yoga.Constants.flexDirection.column
   Yoga.FLEX_DIRECTION_ROW = Yoga.Constants.flexDirection.row
@@ -61,6 +72,9 @@ export default function adapt(Yoga) {
 
   Yoga.POSITION_TYPE_RELATIVE = Yoga.Constants.position.relative
   Yoga.POSITION_TYPE_ABSOLUTE = Yoga.Constants.position.absolute
+
+  Yoga.DIRECTION_RTL = Yoga.Constants.direction.rtl
+  Yoga.DIRECTION_LTR = Yoga.Constants.direction.ltr
 
   Yoga.Node.prototype.reset = function(...args) {
     console.log('reset', args)
@@ -188,6 +202,8 @@ export default function adapt(Yoga) {
     else if (dim === Yoga.EDGE_LEFT) this.paddingLeft = pt(v)
     else if (dim === Yoga.EDGE_RIGHT) this.paddingRight = pt(v)
     else if (dim === Yoga.EDGE_BOTTOM) this.paddingBottom = pt(v)
+    else if(dim === Yoga.EDGE_START) this.paddingStart = pt(v)
+    else if(dim === Yoga.EDGE_END) this.padding = pt(v)
     else console.log('setPadding: unknown dim ' + dim)
   }
   Yoga.Node.prototype.setPaddingPercent = function(...args) {

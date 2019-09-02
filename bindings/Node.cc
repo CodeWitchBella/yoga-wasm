@@ -352,7 +352,9 @@ void Node::setHasNewLayout(bool hasNewLayout)
   NODE_LAYOUT_INDV_EDGE_PROPERTY_IMPL(type, name##Left, name, YGEdgeLeft);     \
   NODE_LAYOUT_INDV_EDGE_PROPERTY_IMPL(type, name##Right, name, YGEdgeRight);   \
   NODE_LAYOUT_INDV_EDGE_PROPERTY_IMPL(type, name##Top, name, YGEdgeTop);       \
-  NODE_LAYOUT_INDV_EDGE_PROPERTY_IMPL(type, name##Bottom, name, YGEdgeBottom);
+  NODE_LAYOUT_INDV_EDGE_PROPERTY_IMPL(type, name##Bottom, name, YGEdgeBottom); \
+  NODE_LAYOUT_INDV_EDGE_PROPERTY_IMPL(type, name##Start, name, YGEdgeStart); \
+  NODE_LAYOUT_INDV_EDGE_PROPERTY_IMPL(type, name##End, name, YGEdgeEnd);
 
 NODE_STYLE_PROPERTY_IMPL(YGDirection, Direction, direction);
 NODE_STYLE_PROPERTY_IMPL(YGFlexDirection, FlexDirection, flexDirection);

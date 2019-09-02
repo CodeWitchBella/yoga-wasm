@@ -16,12 +16,14 @@ it("padding_start", function () {
 
   root.calculateLayout(100, 100, Yoga.DIRECTION_LTR);
 
-  console.assert(10 === root.getComputedPadding(Yoga.EDGE_LEFT), "10 === root.getComputedPadding(Yoga.EDGE_LEFT)");
+  expect(root.getComputedPadding(Yoga.EDGE_LEFT)).toBe(10)
+  //console.assert(10 === root.getComputedPadding(Yoga.EDGE_LEFT), "10 === root.getComputedPadding(Yoga.EDGE_LEFT)");
   console.assert(0 === root.getComputedPadding(Yoga.EDGE_RIGHT), "0 === root.getComputedPadding(Yoga.EDGE_RIGHT)");
 
   root.calculateLayout(100, 100, Yoga.DIRECTION_RTL);
 
-  console.assert(0 === root.getComputedPadding(Yoga.EDGE_LEFT), "0 === root.getComputedPadding(Yoga.EDGE_LEFT)");
+  expect(root.getComputedPadding(Yoga.EDGE_LEFT)).toBe(0)
+  //console.assert(0 === root.getComputedPadding(Yoga.EDGE_LEFT), "0 === root.getComputedPadding(Yoga.EDGE_LEFT)");
   console.assert(10 === root.getComputedPadding(Yoga.EDGE_RIGHT), "10 === root.getComputedPadding(Yoga.EDGE_RIGHT)");
 
   if (typeof root !== "undefined")

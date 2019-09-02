@@ -27,7 +27,9 @@
   NODE_LAYOUT_PROPERTY(TYPE, NAME##Left);                 \
   NODE_LAYOUT_PROPERTY(TYPE, NAME##Right);                \
   NODE_LAYOUT_PROPERTY(TYPE, NAME##Top);                  \
-  NODE_LAYOUT_PROPERTY(TYPE, NAME##Bottom);
+  NODE_LAYOUT_PROPERTY(TYPE, NAME##Bottom);               \
+  NODE_LAYOUT_PROPERTY(TYPE, NAME##Start);                \
+  NODE_LAYOUT_PROPERTY(TYPE, NAME##End);
 
 typedef YGSize (*JSMeasureFunction)(float width,
                                     YGMeasureMode widthMode,
