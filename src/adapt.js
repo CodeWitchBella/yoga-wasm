@@ -7,80 +7,35 @@ export default function adapt(Yoga) {
 
   function pt(v) {
     if (v === undefined)
-      return { value: 0, unit: Yoga.Constants.unit.undefined }
+      return { value: 0, unit: Yoga.UNIT_UNDEFINED }
     if (v === 'auto')
-      return { value: 0, unit: Yoga.Constants.unit.auto }
+      return { value: 0, unit: Yoga.UNIT_AUTO }
     if(typeof v === 'string') {
       const clear = v.replace(/ /g, '')
       if (clear.endsWith('%')) {
         return {
           value: Number.parseFloat(clear.substring(0, clear.length-1)),
-          unit: Yoga.Constants.unit.percent
+          unit: Yoga.UNIT_PERCENT
         }
       }
     }
-    return { value: v, unit: Yoga.Constants.unit.point }
+    return { value: v, unit: Yoga.UNIT_POINT }
   }
   function auto(v) {
-    return { value: v, unit: Yoga.Constants.unit.auto }
+    return { value: v, unit: Yoga.UNIT_AUTO }
   }
   function un(v) {
     if (typeof v === 'number') {
       console.warn(new Error('Number passed to un'))
       return v
     }
-    if (v.unit === Yoga.Constants.unit.undefined) return 0
+    if (v.unit === Yoga.UNIT_UNDEFINED) return 0
     if (v.value !== v.value) console.warn(new Error('NaN'))
     return v.value
   }
   function percent(v) {
-    return { value: v, unit: Yoga.Constants.unit.percent }
+    return { value: v, unit: Yoga.UNIT_PERCENT }
   }
-
-  Yoga.EDGE_TOP = 'EDGE_TOP'
-  Yoga.EDGE_BOTTOM = 'EDGE_BOTTOM'
-  Yoga.EDGE_LEFT = 'EDGE_LEFT'
-  Yoga.EDGE_RIGHT = 'EDGE_RIGHT'
-  Yoga.EDGE_START = 'EDGE_START'
-  Yoga.EDGE_END = 'EDGE_END'
-
-  Yoga.FLEX_DIRECTION_COLUMN = Yoga.Constants.flexDirection.column
-  Yoga.FLEX_DIRECTION_ROW = Yoga.Constants.flexDirection.row
-  Yoga.FLEX_DIRECTION_COLUMN_REVERSE = Yoga.Constants.flexDirection['column-reverse']
-  Yoga.FLEX_DIRECTION_ROW_REVERSE = Yoga.Constants.flexDirection['row-reverse']
-
-  Yoga.JUSTIFY_CENTER = Yoga.Constants.justify.center
-  Yoga.JUSTIFY_FLEX_END = Yoga.Constants.justify['flex-end']
-  Yoga.JUSTIFY_FLEX_START = Yoga.Constants.justify['flex-start']
-  Yoga.JUSTIFY_SPACE_AROUND = Yoga.Constants.justify['space-around']
-  Yoga.JUSTIFY_SPACE_BETWEEN = Yoga.Constants.justify['space-between']
-  Yoga.JUSTIFY_SPACE_EVENLY = Yoga.Constants.justify['space-evenly']
-
-  Yoga.ALIGN_BASELINE = Yoga.Constants.align.baseline
-  Yoga.ALIGN_FLEX_END = Yoga.Constants.align['flex-end']
-  Yoga.ALIGN_FLEX_START = Yoga.Constants.align['flex-start']
-  Yoga.ALIGN_SPACE_AROUND = Yoga.Constants.align['space-around']
-  Yoga.ALIGN_SPACE_BETWEEN = Yoga.Constants.align['space-between']
-  Yoga.ALIGN_STRETCH = Yoga.Constants.align.stretch
-  Yoga.ALIGN_CENTER = Yoga.Constants.align.center
-
-  Yoga.WRAP_WRAP = Yoga.Constants.wrap.wrap
-  Yoga.WRAP_NOWRAP = Yoga.Constants.wrap.nowrap
-  Yoga.WRAP_WRAP_REVERSE = Yoga.Constants.wrap['wrap-reverse']
-
-  Yoga.MEASURE_MODE_AT_MOST = Yoga.Constants.measureMode.atMost
-  Yoga.MEASURE_MODE_EXACTLY = Yoga.Constants.measureMode.exactly
-  Yoga.MEASURE_MODE_UNDEFINED = Yoga.Constants.measureMode.undefined
-
-  Yoga.POSITION_TYPE_RELATIVE = Yoga.Constants.position.relative
-  Yoga.POSITION_TYPE_ABSOLUTE = Yoga.Constants.position.absolute
-
-  Yoga.DIRECTION_RTL = Yoga.Constants.direction.rtl
-  Yoga.DIRECTION_LTR = Yoga.Constants.direction.ltr
-
-  Yoga.OVERFLOW_HIDDEN = Yoga.Constants.overflow.hidden
-  Yoga.OVERFLOW_VISIBLE = Yoga.Constants.overflow.visible
-  Yoga.OVERFLOW_SCROLL = Yoga.Constants.overflow.scroll
 
   Yoga.Node.prototype.reset = function(...args) {
     console.log('reset', args)
@@ -118,14 +73,10 @@ export default function adapt(Yoga) {
   Yoga.Node.prototype.setJustifyContent = function(v) {
     this.justifyContent = v
   }
-  Yoga.Node.prototype.setMargin = function(dim, v) {
-    if (dim === Yoga.EDGE_TOP) this.marginTop = pt(v)
-    else if (dim === Yoga.EDGE_LEFT) this.marginLeft = pt(v)
-    else if (dim === Yoga.EDGE_RIGHT) this.marginRight = pt(v)
-    else if (dim === Yoga.EDGE_BOTTOM) this.marginBottom = pt(v)
-    else if (dim === Yoga.EDGE_START) this.marginStart = pt(v)
-    else if (dim === Yoga.EDGE_END) this.marginEnd = pt(v)
-    else console.log('setMargin: unknown dim ' + dim)
+  const originalSetMargin = Yoga.Node.prototype.setMargin
+  Yoga.Node.prototype.setMargin = function(...args) {
+    console.log('setMargin', args)
+    return originalSetMargin.apply(this, args)
   }
   Yoga.Node.prototype.setMarginPercent = function(...args) {
     console.log('setMarginPercent', args)
@@ -136,8 +87,8 @@ export default function adapt(Yoga) {
   Yoga.Node.prototype.setOverflow = function(v) {
     this.overflow = v
   }
-  Yoga.Node.prototype.setDisplay = function(...args) {
-    console.log('setDisplay', args)
+  Yoga.Node.prototype.setDisplay = function(v) {
+    this.display = v
   }
   Yoga.Node.prototype.setFlex = function(...args) {
     console.log('setFlex', args)

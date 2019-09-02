@@ -71,6 +71,10 @@ void Node::setIsReferenceBaseline(bool isReferenceBaseline) {
   YGNodeSetIsReferenceBaseline(m_node, isReferenceBaseline);
 }
 
+void Node::setMargin(YGEdge edge, double margin) {
+  YGNodeStyleSetMargin(m_node, edge, margin);
+}
+
 void Node::insertChild(Node *child, unsigned index)
 {
   YGNodeInsertChild(m_node, child->m_node, index);
@@ -373,7 +377,6 @@ NODE_STYLE_PROPERTY_IMPL(YGDisplay, Display, display);
 NODE_STYLE_PROPERTY_IMPL(float, Flex, flex);
 
 NODE_STYLE_EDGE_PROPERTY_UNIT_IMPL(Position, position);
-NODE_STYLE_EDGE_PROPERTY_UNIT_AUTO_IMPL(Margin, margin);
 NODE_STYLE_EDGE_PROPERTY_UNIT_IMPL(Padding, padding);
 NODE_STYLE_EDGE_PROPERTY_IMPL(float, Border, border);
 
@@ -460,6 +463,7 @@ EMSCRIPTEN_BINDINGS(YGNode)
 
     .function("copyStyle", &Node::copyStyle, allow_raw_pointers())
     .function("setIsReferenceBaseline", &Node::setIsReferenceBaseline, allow_raw_pointers())
+    .function("setMargin", &Node::setMargin, allow_raw_pointers())
 
     .function("insertChild", &Node::insertChild, allow_raw_pointers())
     .function("removeChild", &Node::removeChild, allow_raw_pointers())
@@ -500,7 +504,6 @@ EMSCRIPTEN_BINDINGS(YGNode)
     EMBIND_NODE_PROP_BINDING(start, PositionStart)
     EMBIND_NODE_PROP_BINDING(end, PositionEnd)
 
-    EMBIND_NODE_EDGE_PROP_BINDING(margin, Margin)
     EMBIND_NODE_EDGE_PROP_BINDING(padding, Padding)
     EMBIND_NODE_EDGE_PROP_BINDING(border, Border)
 

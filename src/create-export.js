@@ -18,6 +18,61 @@ export default (YogaWasm) => new Promise(resolve => {
       }
     }
   }).then((Module) => {
+    for (let fnName of [
+      'setPosition',
+      'setMargin',
+      'setFlexBasis',
+      'setWidth',
+      'setHeight',
+      'setMinWidth',
+      'setMinHeight',
+      'setMaxWidth',
+      'setMaxHeight',
+      'setPadding',
+    ]) {
+      let methods = {
+        [Module.UNIT_POINT]: Module.YGNode.prototype[fnName],
+        [Module.UNIT_PERCENT]: Module.YGNode.prototype[`${fnName}Percent`],
+        [Module.UNIT_AUTO]: Module.YGNode.prototype[`${fnName}Auto`],
+      };
+  
+      patch(Module.YGNode.prototype, fnName, function(original, ...args) {
+        // We patch all these functions to add support for the following calls:
+        // .setWidth(100) / .setWidth("100%") / .setWidth(.getWidth()) / .setWidth("auto")
+  
+        let value = args.pop();
+        let unit, asNumber;
+  
+        if (value === 'auto') {
+          unit = Module.UNIT_AUTO;
+          asNumber = undefined;
+        } else if (value instanceof Value) {
+          unit = value.unit;
+          asNumber = value.valueOf();
+        } else {
+          unit =
+            typeof value === 'string' && value.endsWith('%')
+              ? Module.UNIT_PERCENT
+              : Module.UNIT_POINT;
+          asNumber = parseFloat(value);
+          if (!Number.isNaN(value) && Number.isNaN(asNumber)) {
+            throw new Error(`Invalid value ${value} for ${fnName}`);
+          }
+        }
+  
+        if (!methods[unit])
+          throw new Error(
+            `Failed to execute "${fnName}": Unsupported unit '${value}'`,
+          );
+  
+        if (asNumber !== undefined) {
+          return methods[unit].call(this, ...args, asNumber);
+        } else {
+          return methods[unit].call(this, ...args);
+        }
+      });
+    }
+
     patch(Module.YGNode.prototype, "free", function() {
       this.delete();
     });
@@ -48,26 +103,15 @@ export default (YogaWasm) => new Promise(resolve => {
       return original.call(this, width, height, direction);
     });
 
+    const Constants = {}
+    for(const [k,v] of Object.entries(Module)) {
+      if(k.toUpperCase() === k && !k.startsWith('HEAP')) Constants[k] = v
+    }
+
     resolve(adapt({
+      ...Constants,
       Node: Module.YGNode,
       Config: Module.YGConfig,
-      Constants: {
-        align: Module.YGAlign,
-        dimension: Module.YGDimension,
-        direction: Module.YGDirection,
-        display: Module.YGDisplay,
-        // edge: Module.YGEdge,
-        flexDirection: Module.YGFlexDirection,
-        justify: Module.YGJustify,
-        measureMode: Module.YGMeasureMode,
-        // nodeType: Module.YGNodeType,
-        overflow: Module.YGOverflow,
-        position: Module.YGPositionType,
-        unit: Module.YGUnit,
-        wrap: Module.YGWrap,
-        undefinedValue: Module.YGUndefined,
-        // autoValue: Module.YGValueAuto,
-      },
     }))
   })
 })

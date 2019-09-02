@@ -82,6 +82,7 @@ public:
 public: // Style setters
   void copyStyle(Node const &other);
   void setIsReferenceBaseline(bool isReferenceBaseline);
+  void setMargin(YGEdge edge, double value);
 
 public: // Style properties
   NODE_STYLE_PROPERTY(YGDirection, Direction, direction);
@@ -101,7 +102,6 @@ public: // Style properties
   NODE_STYLE_PROPERTY(YGValue, FlexBasis, flexBasis);
 
   NODE_STYLE_EDGE_PROPERTY(YGValue, Position, position);
-  NODE_STYLE_EDGE_PROPERTY(YGValue, Margin, margin);
   NODE_STYLE_EDGE_PROPERTY(YGValue, Padding, padding);
   NODE_STYLE_EDGE_PROPERTY(float, Border, border);
 

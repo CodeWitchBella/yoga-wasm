@@ -16,6 +16,7 @@ it("margin_start", function () {
 
   root.calculateLayout(100, 100, Yoga.DIRECTION_LTR);
 
+  expect(root.getComputedMargin(Yoga.EDGE_LEFT)).toBe(10)
   console.assert(10 === root.getComputedMargin(Yoga.EDGE_LEFT), "10 === root.getComputedMargin(Yoga.EDGE_LEFT)");
   console.assert(0 === root.getComputedMargin(Yoga.EDGE_RIGHT), "0 === root.getComputedMargin(Yoga.EDGE_RIGHT)");
 
