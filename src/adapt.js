@@ -73,17 +73,6 @@ export default function adapt(Yoga) {
   Yoga.Node.prototype.setJustifyContent = function(v) {
     this.justifyContent = v
   }
-  const originalSetMargin = Yoga.Node.prototype.setMargin
-  Yoga.Node.prototype.setMargin = function(...args) {
-    console.log('setMargin', args)
-    return originalSetMargin.apply(this, args)
-  }
-  Yoga.Node.prototype.setMarginPercent = function(...args) {
-    console.log('setMarginPercent', args)
-  }
-  Yoga.Node.prototype.setMarginAuto = function(...args) {
-    console.log('setMarginAuto', args)
-  }
   Yoga.Node.prototype.setOverflow = function(v) {
     this.overflow = v
   }

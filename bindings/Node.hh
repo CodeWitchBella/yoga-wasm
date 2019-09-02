@@ -83,6 +83,8 @@ public: // Style setters
   void copyStyle(Node const &other);
   void setIsReferenceBaseline(bool isReferenceBaseline);
   void setMargin(YGEdge edge, double value);
+  void setMarginPercent(YGEdge edge, double value);
+  void setMarginAuto(YGEdge edge);
 
 public: // Style properties
   NODE_STYLE_PROPERTY(YGDirection, Direction, direction);

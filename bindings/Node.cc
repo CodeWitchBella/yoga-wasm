@@ -74,6 +74,12 @@ void Node::setIsReferenceBaseline(bool isReferenceBaseline) {
 void Node::setMargin(YGEdge edge, double margin) {
   YGNodeStyleSetMargin(m_node, edge, margin);
 }
+void Node::setMarginPercent(YGEdge edge, double margin) {
+  YGNodeStyleSetMarginPercent(m_node, edge, margin);
+}
+void Node::setMarginAuto(YGEdge edge) {
+  YGNodeStyleSetMarginAuto(m_node, edge);
+}
 
 void Node::insertChild(Node *child, unsigned index)
 {
@@ -464,6 +470,8 @@ EMSCRIPTEN_BINDINGS(YGNode)
     .function("copyStyle", &Node::copyStyle, allow_raw_pointers())
     .function("setIsReferenceBaseline", &Node::setIsReferenceBaseline, allow_raw_pointers())
     .function("setMargin", &Node::setMargin, allow_raw_pointers())
+    .function("setMarginPercent", &Node::setMarginPercent, allow_raw_pointers())
+    .function("setMarginAuto", &Node::setMarginAuto, allow_raw_pointers())
 
     .function("insertChild", &Node::insertChild, allow_raw_pointers())
     .function("removeChild", &Node::removeChild, allow_raw_pointers())
