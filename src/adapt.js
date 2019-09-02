@@ -244,13 +244,6 @@ export default function adapt(Yoga) {
   Yoga.Node.prototype.getComputedHeight = function() {
     return this.computedHeight
   }
-  Yoga.Node.prototype.getComputedMargin = function(dim) {
-    if (dim === Yoga.EDGE_TOP) return un(this.marginTop)
-    else if (dim === Yoga.EDGE_LEFT) return un(this.marginLeft)
-    else if (dim === Yoga.EDGE_RIGHT) return un(this.marginRight)
-    else if (dim === Yoga.EDGE_BOTTOM) return un(this.marginBottom)
-    else console.log('getComputedMargin: unknown dim ' + dim)
-  }
   Yoga.Node.prototype.getComputedBorder = function(dim) {
     if (dim === Yoga.EDGE_TOP) return this.computedBorderTop
     else if (dim === Yoga.EDGE_LEFT) return this.computedBorderLeft

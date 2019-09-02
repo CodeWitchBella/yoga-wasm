@@ -85,6 +85,7 @@ public: // Style setters
   void setMargin(YGEdge edge, double value);
   void setMarginPercent(YGEdge edge, double value);
   void setMarginAuto(YGEdge edge);
+  double getComputedMargin(YGEdge edge);
 
   void setPositionType(YGPositionType type);
   void setPosition(YGEdge edge, double value);

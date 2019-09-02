@@ -80,6 +80,9 @@ void Node::setMarginPercent(YGEdge edge, double margin) {
 void Node::setMarginAuto(YGEdge edge) {
   YGNodeStyleSetMarginAuto(m_node, edge);
 }
+double Node::getComputedMargin(YGEdge edge) {
+  return YGNodeLayoutGetMargin(m_node, edge);
+}
 
 void Node::setPositionType(YGPositionType type) {
   YGNodeStyleSetPositionType(m_node, type);
@@ -480,6 +483,7 @@ EMSCRIPTEN_BINDINGS(YGNode)
     .function("setMargin", &Node::setMargin, allow_raw_pointers())
     .function("setMarginPercent", &Node::setMarginPercent, allow_raw_pointers())
     .function("setMarginAuto", &Node::setMarginAuto, allow_raw_pointers())
+    .function("getComputedMargin", &Node::getComputedMargin, allow_raw_pointers())
 
     .function("setPosition", &Node::setPosition, allow_raw_pointers())
     .function("setPositionType", &Node::setPositionType, allow_raw_pointers())
