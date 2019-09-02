@@ -194,8 +194,14 @@ export default function adapt(Yoga) {
   Yoga.Node.prototype.setAspectRatio = function(...args) {
     console.log('setAspectRatio', args)
   }
-  Yoga.Node.prototype.setBorder = function(...args) {
-    console.log('setBorder', args)
+  Yoga.Node.prototype.setBorder = function(dim, v) {
+    if (dim === Yoga.EDGE_TOP) this.borderTop = v
+    else if (dim === Yoga.EDGE_LEFT) this.borderLeft = v
+    else if (dim === Yoga.EDGE_RIGHT) this.borderRight = v
+    else if (dim === Yoga.EDGE_BOTTOM) this.borderBottom = v
+    else if(dim === Yoga.EDGE_START) this.borderStart = v
+    else if(dim === Yoga.EDGE_END) this.borderEnd = v
+    else console.log('setPadding: unknown dim ' + dim)
   }
   Yoga.Node.prototype.setPadding = function(dim, v) {
     if (dim === Yoga.EDGE_TOP) this.paddingTop = pt(v)
@@ -203,7 +209,7 @@ export default function adapt(Yoga) {
     else if (dim === Yoga.EDGE_RIGHT) this.paddingRight = pt(v)
     else if (dim === Yoga.EDGE_BOTTOM) this.paddingBottom = pt(v)
     else if(dim === Yoga.EDGE_START) this.paddingStart = pt(v)
-    else if(dim === Yoga.EDGE_END) this.padding = pt(v)
+    else if(dim === Yoga.EDGE_END) this.paddingEnd = pt(v)
     else console.log('setPadding: unknown dim ' + dim)
   }
   Yoga.Node.prototype.setPaddingPercent = function(...args) {
