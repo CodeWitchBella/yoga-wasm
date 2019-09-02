@@ -78,6 +78,10 @@ export default function adapt(Yoga) {
   Yoga.DIRECTION_RTL = Yoga.Constants.direction.rtl
   Yoga.DIRECTION_LTR = Yoga.Constants.direction.ltr
 
+  Yoga.OVERFLOW_HIDDEN = Yoga.Constants.overflow.hidden
+  Yoga.OVERFLOW_VISIBLE = Yoga.Constants.overflow.visible
+  Yoga.OVERFLOW_SCROLL = Yoga.Constants.overflow.scroll
+
   Yoga.Node.prototype.reset = function(...args) {
     console.log('reset', args)
   }
@@ -89,25 +93,26 @@ export default function adapt(Yoga) {
     else if (dim === Yoga.EDGE_LEFT) this.left = pt(v)
     else if (dim === Yoga.EDGE_RIGHT) this.right = pt(v)
     else if (dim === Yoga.EDGE_BOTTOM) this.bottom = pt(v)
+    else if (dim === Yoga.EDGE_START) this.start = pt(v)
+    else if (dim === Yoga.EDGE_END) this.end = pt(v)
     else console.log('setPosition: unknown dim ' + dim)
   }
   Yoga.Node.prototype.setPositionPercent = function(...args) {
     console.log('setPositionPercent', args)
   }
-  Yoga.Node.prototype.setAlignContent = function(...args) {
-    console.log('setAlignContent', args)
+  Yoga.Node.prototype.setAlignContent = function(v) {
+    this.alignContent = v
   }
   Yoga.Node.prototype.setAlignItems = function(align) {
     this.alignItems = align
   }
-  Yoga.Node.prototype.setAlignSelf = function(...args) {
-    console.log('setAlignSelf', args)
+  Yoga.Node.prototype.setAlignSelf = function(v) {
+    this.alignSelf = v
   }
   Yoga.Node.prototype.setFlexDirection = function(v) {
     this.flexDirection = v
   }
   Yoga.Node.prototype.setFlexWrap = function(wrap) {
-    console.log('setFlexWrap', wrap)
     this.flexWrap = wrap
   }
   Yoga.Node.prototype.setJustifyContent = function(v) {
@@ -128,8 +133,8 @@ export default function adapt(Yoga) {
   Yoga.Node.prototype.setMarginAuto = function(...args) {
     console.log('setMarginAuto', args)
   }
-  Yoga.Node.prototype.setOverflow = function(...args) {
-    console.log('setOverflow', args)
+  Yoga.Node.prototype.setOverflow = function(v) {
+    this.overflow = v
   }
   Yoga.Node.prototype.setDisplay = function(...args) {
     console.log('setDisplay', args)
@@ -170,14 +175,14 @@ export default function adapt(Yoga) {
   Yoga.Node.prototype.setHeightAuto = function(...args) {
     console.log('setHeightAuto', args)
   }
-  Yoga.Node.prototype.setMinWidth = function(...args) {
-    console.log('setMinWidth', args)
+  Yoga.Node.prototype.setMinWidth = function(v) {
+    this.minWidth = pt(v)
   }
   Yoga.Node.prototype.setMinWidthPercent = function(...args) {
     console.log('setMinWidthPercent', args)
   }
-  Yoga.Node.prototype.setMinHeight = function(...args) {
-    console.log('setMinHeight', args)
+  Yoga.Node.prototype.setMinHeight = function(v) {
+    this.minHeight = pt(v)
   }
   Yoga.Node.prototype.setMinHeightPercent = function(...args) {
     console.log('setMinHeightPercent', args)
