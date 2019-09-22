@@ -14,6 +14,14 @@ export default [{
   input: "src/index.es.js",
   ...base([
     copy({ targets: [{ src: 'build/yoga.wasm', dest: 'dist/' }] }),
+    {
+      resolveImportMeta(property, {moduleId}) {
+        if (property === 'url') {
+          return `undefined`;
+        }
+        return null;
+      },
+    }
   ]),
   output: {
     format: "es",
