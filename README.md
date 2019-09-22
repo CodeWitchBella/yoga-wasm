@@ -26,9 +26,11 @@ This makes webpack provide us with path to `yoga.wasm` file.
 - Be able to use it as drop-in replacement for yoga-layout-prebuilt except that
   it exports promise.
 
-## Roadmap
+## Status
 
-See [issue #1](https://github.com/CodeWitchBella/yoga-wasm/issues/1)
+It is code-complete and most of the code is copied over from yoga-layout, which
+means that it should be compatible with most code using yoga. But it needs
+more testing to determine if it is actually true.
 
 ## Currently non-goals
 
