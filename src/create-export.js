@@ -1,4 +1,10 @@
-import adapt from './adapt'
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the LICENSE
+ * file in the root directory of this source tree.
+ */
+
 import Yoga from "../build/yoga"
 
 function patch(prototype, name, fn) {
@@ -82,7 +88,7 @@ export default (YogaWasm) => new Promise(resolve => {
 
         if (!methods[unit])
           throw new Error(
-            `Failed to execute "${fnName}": Unsupported unit '${value}'`,
+            `Failed to execute "${fnName}": Unsupported unit '${value}' (${unit})`,
           );
   
         if (asNumber !== undefined) {
@@ -157,14 +163,20 @@ export default (YogaWasm) => new Promise(resolve => {
 
     // TODO: maybe use the values like upstream does?
     const Constants = {}
-    for(const [k,v] of Object.entries(lib)) {
-      if(k.toUpperCase() === k && !k.startsWith('HEAP') && typeof v !== 'function') Constants[k] = v
+    for (const [k,v] of Object.entries(lib)) {
+      if (
+        k.toUpperCase() === k
+        && !k.startsWith('HEAP')
+        && typeof v !== 'function'
+      ) {
+        Constants[k] = v.value
+      }
     }
 
-    resolve(adapt({
+    resolve({
       ...Constants,
       Node: lib.Node,
       Config: lib.Config,
-    }))
+    })
   })
 })

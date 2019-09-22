@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the LICENSE
+ * file in the root directory of this source tree.
+ */
+
 #include <emscripten/bind.h>
 
 #include "../yoga/Yoga.h"
@@ -40,7 +47,7 @@ bool Config::isExperimentalFeatureEnabled(int feature) const
 
 using namespace emscripten;
 
-EMSCRIPTEN_BINDINGS(YGConfig) {
+EMSCRIPTEN_BINDINGS(Config) {
   class_<Config>("Config")
     .class_function("create", &Config::create, allow_raw_pointers())
     .constructor<>(&Config::create, allow_raw_pointers())
