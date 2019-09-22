@@ -41,7 +41,8 @@ bool Config::isExperimentalFeatureEnabled(int feature) const
 using namespace emscripten;
 
 EMSCRIPTEN_BINDINGS(YGConfig) {
-  class_<Config>("YGConfig")
+  class_<Config>("Config")
+    .class_function("create", &Config::create, allow_raw_pointers())
     .constructor<>(&Config::create, allow_raw_pointers())
     // .function("setExperimentalFeatureEnabled", &Config::setExperimentalFeatureEnabled)
     .function("setPointScaleFactor", &Config::setPointScaleFactor)

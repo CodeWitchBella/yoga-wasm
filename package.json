@@ -36,7 +36,9 @@
     "access": "public"
   },
   "jest": {
-    "setupFiles": ["./tests/jest-setup.js"],
+    "setupFiles": [
+      "./tests/jest-setup.js"
+    ],
     "testEnvironment": "node",
     "testRegex": "Test\\.js$"
   },

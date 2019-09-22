@@ -481,27 +481,27 @@ EMSCRIPTEN_BINDINGS(YGNode)
     .allow_subclass<DirtiedCallbackWrapper>("DirtiedCallbackWrapper")
     ;
 
-  value_object<YGSize>("YGSize")
+  value_object<YGSize>("Size")
     .field("width", &YGSize::width)
     .field("height", &YGSize::height)
     ;
 
-  value_object<YGValue>("YGValue")
+  value_object<YGValue>("Value")
     .field("value", &YGValue::value)
     .field("unit", &YGValue::unit)
     ;
 
-  value_object<Layout>("YGLayout")
+  value_object<Layout>("Layout")
     .field("left", &Layout::left)
     .field("top", &Layout::top)
     .field("width", &Layout::width)
     .field("height", &Layout::height)
     ;
 
-  constant("YGUndefined", YGUndefined);
-  // constant("YGValueAuto", YGValueAuto);
+  constant("Undefined", YGUndefined);
+  // constant("ValueAuto", YGValueAuto);
 
-  class_<Node>("YGNode")
+  class_<Node>("Node")
     .constructor<>(&Node::createDefault, allow_raw_pointers())
 
     .class_function("createWithConfig", &Node::createWithConfig, allow_raw_pointers())

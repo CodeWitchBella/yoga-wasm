@@ -10,6 +10,26 @@ function patch(prototype, name, fn) {
   };
 }
 
+
+class Size {
+  static fromJS({width, height}) {
+    return new Size(width, height);
+  }
+
+  constructor(width, height) {
+    this.width = width;
+    this.height = height;
+  }
+
+  fromJS(expose) {
+    expose(this.width, this.height);
+  }
+
+  toString() {
+    return `<Size#${this.width}x${this.height}>`;
+  }
+}
+
 export default (YogaWasm) => new Promise(resolve => {
   Yoga({
     locateFile(path) {
@@ -17,7 +37,7 @@ export default (YogaWasm) => new Promise(resolve => {
         return YogaWasm
       }
     }
-  }).then((Module) => {
+  }).then((lib) => {
     for (let fnName of [
       'setPosition',
       'setMargin',
@@ -31,12 +51,12 @@ export default (YogaWasm) => new Promise(resolve => {
       'setPadding',
     ]) {
       let methods = {
-        UNIT_POINT: Module.YGNode.prototype[fnName],
-        UNIT_PERCENT: Module.YGNode.prototype[`${fnName}Percent`],
-        UNIT_AUTO: Module.YGNode.prototype[`${fnName}Auto`],
+        UNIT_POINT: lib.Node.prototype[fnName],
+        UNIT_PERCENT: lib.Node.prototype[`${fnName}Percent`],
+        UNIT_AUTO: lib.Node.prototype[`${fnName}Auto`],
       };
   
-      patch(Module.YGNode.prototype, fnName, function(original, ...args) {
+      patch(lib.Node.prototype, fnName, function(original, ...args) {
         // We patch all these functions to add support for the following calls:
         // .setWidth(100) / .setWidth("100%") / .setWidth(.getWidth()) / .setWidth("auto")
   
@@ -72,57 +92,79 @@ export default (YogaWasm) => new Promise(resolve => {
         }
       });
     }
-
-    patch(Module.YGNode.prototype, "free", function() {
-      this.delete();
+    patch(lib.Config.prototype, 'free', function() {
+      // Since we handle the memory allocation ourselves (via lib.Config.create),
+      // we also need to handle the deallocation
+      lib.Config.destroy(this);
     });
-
-    patch(Module.YGNode.prototype, "freeRecursive", function() {
-      for (var t = 0, T = this.getChildCount(); t < T; ++t)
+  
+    patch(lib.Node, 'create', function(_, config) {
+      // We decide the constructor we want to call depending on the parameters
+      return config
+        ? lib.Node.createWithConfig(config)
+        : lib.Node.createDefault();
+    });
+  
+    patch(lib.Node.prototype, 'free', function() {
+      // Since we handle the memory allocation ourselves (via lib.Node.create),
+      // we also need to handle the deallocation
+      lib.Node.destroy(this);
+    });
+  
+    patch(lib.Node.prototype, 'freeRecursive', function() {
+      for (let t = 0, T = this.getChildCount(); t < T; ++t) {
         this.getChild(0).freeRecursive();
+      }
       this.free();
     });
 
-    function wrapMeasureFunction(measureFunction) {
-      return Module.MeasureCallback.implement({ measure: measureFunction });
-    }
-
-    patch(Module.YGNode.prototype, "setMeasureFunc", function(
-      original,
-      measureFunc
-    ) {
-      original.call(this, wrapMeasureFunction(measureFunc));
-    });
-
+    // our addition - we need to wrap the callback
     function wrapDirtiedFunction(fn) {
-      return Module.DirtiedCallback.implement({ dirtied: fn });
+      return lib.DirtiedCallback.implement({ dirtied: fn });
     }
-
-    patch(Module.YGNode.prototype, "setDirtiedFunc", function(
-      original,
-      fn
-    ) {
-      original.call(this, wrapDirtiedFunction(fn));
+    patch(lib.Node.prototype, 'setDirtiedFunc', function(original, fn) {
+      return original.call(this, wrapDirtiedFunction(fn));
     });
-
-    patch(Module.YGNode.prototype, "calculateLayout", function(
+    
+    // Here we have modification to wrap the callback
+    function wrapMeasureFunction(measureFunction) {
+      return lib.MeasureCallback.implement({ measure: measureFunction });
+    }
+    patch(lib.Node.prototype, 'setMeasureFunc', function(original, measureFunc) {
+      // This patch is just a convenience patch, since it helps write more
+      // idiomatic source code (such as .setMeasureFunc(null))
+      // We also automatically convert the return value of the measureFunc
+      // to a Size object, so that we can return anything that has .width and
+      // .height properties
+      if (measureFunc) {
+        return original.call(this, wrapMeasureFunction((...args) =>
+          Size.fromJS(measureFunc(...args))),
+        );
+      } else {
+        return this.unsetMeasureFunc();
+      }
+    });
+    
+    patch(lib.Node.prototype, 'calculateLayout', function(
       original,
-      width = Module.YGUndefined,
-      height = Module.YGUndefined,
-      direction = Module.YGDirection.ltr
+      width = NaN,
+      height = NaN,
+      direction = CONSTANTS.DIRECTION_LTR,
     ) {
+      // Just a small patch to add support for the function default parameters
       return original.call(this, width, height, direction);
-    });
+    });  
 
+    // TODO: maybe use the values like upstream does?
     const Constants = {}
-    for(const [k,v] of Object.entries(Module)) {
-      if(k.toUpperCase() === k && !k.startsWith('HEAP')) Constants[k] = v
+    for(const [k,v] of Object.entries(lib)) {
+      if(k.toUpperCase() === k && !k.startsWith('HEAP') && typeof v !== 'function') Constants[k] = v
     }
 
     resolve(adapt({
       ...Constants,
-      Node: Module.YGNode,
-      Config: Module.YGConfig,
+      Node: lib.Node,
+      Config: lib.Config,
     }))
   })
 })

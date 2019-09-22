@@ -8,7 +8,7 @@ using namespace emscripten;
 
 EMSCRIPTEN_BINDINGS(YGEnums) {
   // YGEnums ==========================================
-  enum_<YGAlign>("YGAlign")
+  enum_<YGAlign>("Align")
     .value("auto", YGAlignAuto)
     .value("flex-start", YGAlignFlexStart)
     .value("center", YGAlignCenter)
@@ -27,14 +27,14 @@ EMSCRIPTEN_BINDINGS(YGEnums) {
   constant("ALIGN_SPACE_BETWEEN", YGAlignSpaceBetween);
   constant("ALIGN_SPACE_AROUND", YGAlignSpaceAround);
   
-  enum_<YGDimension>("YGDimension")
+  enum_<YGDimension>("Dimension")
     .value("width", YGDimensionWidth)
     .value("height", YGDimensionHeight)
     ;
   constant("DIMENSION_WIDTH", YGDimensionWidth);
   constant("DIMENSION_HEIGHT", YGDimensionHeight);
 
-  enum_<YGDirection>("YGDirection")
+  enum_<YGDirection>("Direction")
     .value("inherit", YGDirectionInherit)
     .value("ltr", YGDirectionLTR)
     .value("rtl", YGDirectionRTL)
@@ -43,14 +43,14 @@ EMSCRIPTEN_BINDINGS(YGEnums) {
   constant("DIRECTION_LTR", YGDirectionLTR);
   constant("DIRECTION_RTL", YGDirectionRTL);
 
-  enum_<YGDisplay>("YGDisplay")
+  enum_<YGDisplay>("Display")
     .value("flex", YGDisplayFlex)
     .value("none", YGDisplayNone)
     ;
   constant("DISPLAY_FLEX", YGDisplayFlex);
   constant("DISPLAY_NONE", YGDisplayNone);
 
-  enum_<YGEdge>("YGEdge")
+  enum_<YGEdge>("Edge")
     .value("left", YGEdgeLeft)
     .value("top", YGEdgeTop)
     .value("right", YGEdgeRight)
@@ -71,7 +71,7 @@ EMSCRIPTEN_BINDINGS(YGEnums) {
   constant("EDGE_VERTICAL", YGEdgeVertical);
   constant("EDGE_ALL", YGEdgeAll);
   
-  enum_<YGFlexDirection>("YGFlexDirection")
+  enum_<YGFlexDirection>("FlexDirection")
     .value("column", YGFlexDirectionColumn)
     .value("column-reverse", YGFlexDirectionColumnReverse)
     .value("row", YGFlexDirectionRow)
@@ -82,7 +82,7 @@ EMSCRIPTEN_BINDINGS(YGEnums) {
   constant("FLEX_DIRECTION_ROW", YGFlexDirectionRow);
   constant("FLEX_DIRECTION_ROW_REVERSE", YGFlexDirectionRowReverse);
 
-  enum_<YGJustify>("YGJustify")
+  enum_<YGJustify>("Justify")
     .value("flex-start", YGJustifyFlexStart)
     .value("center", YGJustifyCenter)
     .value("flex-end", YGJustifyFlexEnd)
@@ -99,7 +99,7 @@ EMSCRIPTEN_BINDINGS(YGEnums) {
 
   // YGLogLevel
 
-  enum_<YGMeasureMode>("YGMeasureMode")
+  enum_<YGMeasureMode>("MeasureMode")
     .value("undefined", YGMeasureModeUndefined)
     .value("exactly", YGMeasureModeExactly)
     .value("atMost", YGMeasureModeAtMost)
@@ -108,12 +108,12 @@ EMSCRIPTEN_BINDINGS(YGEnums) {
   constant("MEASURE_MODE_EXACTLY", YGMeasureModeExactly);
   constant("MEASURE_MODE_AT_MOST", YGMeasureModeAtMost);
 
-  // enum_<YGNodeType>("YGNodeType")
+  // enum_<YGNodeType>("NodeType")
   //   .value("default", YGNodeTypeDefault)
   //   .value("text", YGNodeTypeText)
   //   ;
 
-  enum_<YGOverflow>("YGOverflow")
+  enum_<YGOverflow>("Overflow")
     .value("visible", YGOverflowVisible)
     .value("hidden", YGOverflowHidden)
     .value("scroll", YGOverflowScroll)
@@ -122,14 +122,14 @@ EMSCRIPTEN_BINDINGS(YGEnums) {
   constant("OVERFLOW_HIDDEN", YGOverflowHidden);
   constant("OVERFLOW_SCROLL", YGOverflowScroll);
 
-  enum_<YGPositionType>("YGPositionType")
+  enum_<YGPositionType>("PositionType")
     .value("relative", YGPositionTypeRelative)
     .value("absolute", YGPositionTypeAbsolute)
     ;
   constant("POSITION_TYPE_RELATIVE", YGPositionTypeRelative);
   constant("POSITION_TYPE_ABSOLUTE", YGPositionTypeAbsolute);
   
-  enum_<YGUnit>("YGUnit")
+  enum_<YGUnit>("Unit")
     .value("undefined", YGUnitUndefined)
     .value("point", YGUnitPoint)
     .value("percent", YGUnitPercent)
@@ -140,7 +140,7 @@ EMSCRIPTEN_BINDINGS(YGEnums) {
   constant("UNIT_PERCENT", YGUnitPercent);
   constant("UNIT_AUTO", YGUnitAuto);
 
-  enum_<YGWrap>("YGWrap")
+  enum_<YGWrap>("Wrap")
     .value("nowrap", YGWrapNoWrap)
     .value("wrap", YGWrapWrap)
     .value("wrap-reverse", YGWrapWrapReverse)

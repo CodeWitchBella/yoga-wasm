@@ -250,6 +250,7 @@ export default function adapt(Yoga) {
     else console.log('getComputedPadding: unknown dim ' + dim)
   }
 
+  
   const originalSetMeasureFunc = Yoga.Node.prototype.setMeasureFunc
   Yoga.Node.prototype.setMeasureFunc = function(f) {
     function func(...args) {
@@ -258,8 +259,8 @@ export default function adapt(Yoga) {
     }
     return originalSetMeasureFunc.apply(this, [func])
   }
+  
 
-  Yoga.Config.create = () => new Yoga.Config()
   Yoga.Config.prototype.free = function() {
     Yoga.Config.destroy(this)
   }
