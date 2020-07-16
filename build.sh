@@ -6,6 +6,8 @@ export LDFLAGS="${OPTIMIZE}"
 export CFLAGS="${OPTIMIZE}"
 export CXXFLAGS="${OPTIMIZE}"
 
+mkdir -p build
+
 echo "============================================="
 echo "Compiling wasm bindings"
 echo "============================================="

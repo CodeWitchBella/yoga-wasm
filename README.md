@@ -45,3 +45,7 @@ git clone git@github.com:CodeWitchBella/yoga-wasm.git --recursive # clone with s
 cd yoga-wasm
 npm ci # also runs build
 ```
+
+## Updating emscripten
+
+Change docker image tag in `package.json#/scripts/build:wasm`

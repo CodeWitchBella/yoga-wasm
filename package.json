@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "clean:bundle": "rimraf dist",
-    "build:wasm": "docker run --rm -v $(pwd):/src trzeci/emscripten:1.39.18-upstream ./build.sh",
+    "build:wasm": "docker run --rm -v $(pwd):/src trzeci/emscripten:sdk-tag-1.38.39-64bit ./build.sh",
     "prebuild:bundle": "npm run clean:bundle",
     "build:bundle": "rollup --silent -c rollup.config.js",
     "build": "npm run build:wasm && npm run build:bundle",
