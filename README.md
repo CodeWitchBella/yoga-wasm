@@ -1,6 +1,6 @@
 # Yoga WASM
 
-Custom bindings of Yoga Layout compiled to WebAssembly.
+Custom bindings of Yoga Layout 1.18.0 compiled to WebAssembly.
 
 ## Install
 
@@ -45,6 +45,23 @@ git clone git@github.com:CodeWitchBella/yoga-wasm.git --recursive # clone with s
 cd yoga-wasm
 npm ci # also runs build
 ```
+
+## Updating upstream yoga
+
+```
+git clone git@github.com:facebook/yoga.git fbyoga -b 1.18.0 # replace with your desired version
+cd fbyoga
+git subtree split -P yoga -b fbyoga
+git remote add wasm git@github.com:CodeWitchBella/yoga-wasm.git
+git push wasm fbyoga
+cd ..
+rm -rf fbyoga
+git pull --recurse-submodules
+cd yoga
+git pull origin fbyoga
+```
+
+Now commit and push result, also edit README.md
 
 ## Updating emscripten
 
