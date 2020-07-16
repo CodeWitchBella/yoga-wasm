@@ -35,3 +35,13 @@ more testing to determine if it is actually true.
 ## Currently non-goals
 
 - Fallback to JS (but I might accept pull request)
+
+## Building
+
+You have to have docker working and running to do this.
+
+```
+git clone git@github.com:CodeWitchBella/yoga-wasm.git --recursive # clone with submodule
+cd yoga-wasm
+npm ci # also runs build
+```
